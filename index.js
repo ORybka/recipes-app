@@ -2,9 +2,14 @@ import { Recipe } from './recipesList';
 
 window.dataStore = {
   currentRecipe: '',
+  likedRecipe: '',
 };
+
+let likedRecipe;
 window.GetRandomRecipe = GetRandomRecipe;
+window.likedRecipe = likedRecipe;
 window.renderApp = renderApp;
+window.showList = showList;
 const RECIPES_NUM = 3;
 
 renderApp();
@@ -21,11 +26,10 @@ function App() {
     ${RenderBtn()}
     <br>
     ${SearchByDish()}
-    ${SearchByIngredient()}
-    <br>
-    ${ShowLikedRecipes()}
     <br>
     ${renderRecipe()}
+    <br>
+    ${showLikedRecipesButton()}
   </div>
   `;
 }
@@ -93,21 +97,34 @@ function renderRecipe() {
 
       content += `<div><h3>${recipeName.strMeal}</h3></div>`;
       content += `<div>${strInstructions}</div><br>`;
-    } else {
-      content += `<div><h3>No matches ... </h3></div>`;
+      content += `${addLikeButton(recipeName.strMeal)}`;
     }
   });
   return `<div>${content}</div>`;
 }
 
-function SearchByIngredient() {
-  return 'SearchByIngredient';
+function addLikeButton(recipe) {
+  window.likedRecipe = recipe;
+  return `
+  <button id="like-recipe-btn" onclick="window.dataStore.likedRecipe = likedRecipe; window.renderApp();">Click to add this recipe<br>to your favorite</button>`;
+}
+
+function showLikedRecipesButton() {
+  let content = '';
+  content += `<button id="show-btn" onclick="window.showList();">Click to see your favorite recipes</button>`;
+  content += `<div>${ShowLikedRecipes()}</div>`;
+  return `<div>${content}</div>`;
 }
 
 function ShowLikedRecipes() {
-  return 'ShowLikedRecipes';
+  return `
+    <div id="liked-title" class="_hidden_7ad08"><h3>List of your favorite recipes:</h3></div>
+    <div id="liked-list" class="_hidden_7ad08">${window.dataStore.likedRecipe}</div>`;
 }
 
-// Search recipes by ingredients, dish names or countries
-// Get random recipe
-// Mark recipes that you like
+function showList() {
+  const elemArr = [document.querySelector('#liked-title'), document.querySelector('#liked-list')];
+  elemArr.map(el => {
+    el.style.display === 'block' ? (el.style.display = 'none') : (el.style.display = 'block');
+  });
+}
