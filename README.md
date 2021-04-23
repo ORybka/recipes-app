@@ -5,6 +5,8 @@ This App will be created as a part of FE JS framework development section from [
 This application will be created to let you search for the best recipes all over the world.
 You will be able to find different recipes by ingredients, dish names, countries etc.
 
+[Demo website](https://orybka.github.io/recipes-app/)
+
 ## :candy: Main features:
 
 1. Search recipes by ingredients, dish names or countries
