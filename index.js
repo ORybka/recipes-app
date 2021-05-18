@@ -1,3 +1,4 @@
+import { Recipe } from './recipesList';
 import { allowedRecipes, getRecipe } from './utils';
 
 window.dataStore = {
@@ -24,9 +25,8 @@ function renderApp() {
     `;
 }
 
-function recipeResults() {
+function RecipeResults() {
   const { currentRecipe, isDataLoading, error } = window.dataStore;
-
   let content = '';
   if (currentRecipe === '') {
     content = 'Search by recipe name';
@@ -39,13 +39,13 @@ function recipeResults() {
       content = error;
     }
 
-    if (isCurrentRecipeDataLoaded()) {
-      content = `
+    // if (isCurrentRecipeDataLoaded()) {
+    content = `
       ${renderRecipe()}
       <br>
       ${showLikedRecipesButton()}
       `;
-    }
+    // }
   }
 
   return `<div>${content}</div>`;
@@ -58,7 +58,7 @@ function App() {
     <br>
     ${SearchByDish()}
     <br>
-    ${recipeResults()}
+    ${RecipeResults()}
   </div>
   `;
 }
@@ -74,32 +74,12 @@ function RenderBtn() {
 function GetRandomRecipe() {
   let content = '';
   const index = Math.floor(Math.random() * RECIPES_NUM);
-  const recipeData = getRecipe(allowedRecipes[index]);
+  const recipeData = Recipe.meals[index];
+  const { strMeal, strCategory, strInstructions } = recipeData;
 
-  // if (!isCurrentRecipeDataLoaded()) {
-  //   return fetch(recipeData)
-  //     .then(response => response.json())
-  //     .then(() => console.log(response))
-  //     .then(data => ({ data }))
-  //     .then((error, data) => {
-  //       window.dataStore.isDataLoading = true;
-  //       if (error) {
-  //         window.dataStore.error = error;
-  //       } else if (data) {
-  //         window.dataStore.recipeList[recipeName] = data;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       window.dataStore.error = 'Some error ocurred...';
-  //     })
-  //     .finally(window.renderApp);
-  // }
-
-  // const { strMeal, strCategory, strInstructions } = recipeData;
-
-  // content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
-  // content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
-  // content += `<div>${strInstructions}</div><br>`;
+  content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
+  content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
+  content += `<div>${strInstructions}</div><br>`;
 
   return `<div>${content}</div>`;
 }
@@ -114,24 +94,19 @@ async function performSearch(recipeName) {
   window.dataStore.error = null;
   window.dataStore.isDataLoading = true;
 
-  if (!isCurrentRecipeDataLoaded()) {
-    try {
-      window.dataStore.isDataLoading = false;
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw Error(response.statusText);
-      } else {
-        const results = await response.json();
-        console.log(results);
-        console.log(window.dataStore);
-        window.dataStore.recipeList[recipeName] = results;
-      }
-    } catch (e) {
-      window.dataStore.error = 'Some error ocurred...';
-      console.error(e);
-    } finally {
-      window.renderApp;
+  try {
+    window.dataStore.isDataLoading = false;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw Error(response.statusText);
+    } else {
+      const results = await response.json();
+      window.dataStore.recipeList[recipeName] = results.meals;
     }
+  } catch (e) {
+    window.dataStore.error = 'Some error ocurred...';
+  } finally {
+    renderApp();
   }
 }
 
@@ -165,11 +140,11 @@ function renderRecipe() {
   let content = '';
 
   if (recipeData) {
-    const { strInstructions } = recipeData;
+    const { strInstructions } = recipeData[0];
 
-    content += `<div><h3>${currentRecipe.strMeal}</h3></div>`;
+    content += `<div><h3>${currentRecipe}</h3></div>`;
     content += `<div>${strInstructions}</div><br>`;
-    content += `${addLikeButton(currentRecipe.strMeal)}`;
+    content += `${addLikeButton(currentRecipe)}`;
   }
   return `<div>${content}</div>`;
 }
