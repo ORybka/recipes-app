@@ -1,8 +1,8 @@
-import { Recipe } from './recipesList';
-import { allowedRecipes, getRecipe } from './utils';
+import { allowedRecipes, getRecipe, getRandomURL } from './utils';
 
 window.dataStore = {
   currentRecipe: '',
+  randomRecipe: {},
   isDataLoading: false,
   error: null,
   recipeList: {},
@@ -54,7 +54,9 @@ function RecipeResults() {
 function App() {
   return `
   <div>
-    ${RenderBtn()}
+    ${RenderRandomBtn()}
+    <br>
+    ${renderRandomRecipe()}
     <br>
     ${SearchByDish()}
     <br>
@@ -63,30 +65,55 @@ function App() {
   `;
 }
 
-function RenderBtn() {
+function RenderRandomBtn() {
   return `
     <button id="random-recipe-btn" onclick="window.GetRandomRecipe(); window.renderApp();">Click to get a recipe</button>
     <br>
-    <div>${GetRandomRecipe()}</div>
   `;
+  // <div>${renderRandomRecipe()}</div>
 }
 
-function GetRandomRecipe() {
-  let content = '';
-  const index = Math.floor(Math.random() * RECIPES_NUM);
-  const recipeData = Recipe.meals[index];
-  const { strMeal, strCategory, strInstructions } = recipeData;
+async function GetRandomRecipe() {
+  const url = getRandomURL();
+  window.dataStore.error = null;
+  window.dataStore.isDataLoading = true;
 
-  content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
-  content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
-  content += `<div>${strInstructions}</div><br>`;
+  try {
+    window.dataStore.isDataLoading = false;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw Error(response.statusText);
+    } else {
+      const results = await response.json();
+      window.dataStore.randomRecipe = results.meals[0];
+    }
+  } catch (e) {
+    window.dataStore.error = 'Some error ocurred...';
+  } finally {
+    renderApp();
+  }
+}
+
+function renderRandomRecipe() {
+  const { randomRecipe } = window.dataStore;
+  let content = '';
+
+  const { strMeal, strCategory, strInstructions } = randomRecipe;
+  if (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object) {
+    content = '';
+  } else {
+    content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
+    content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
+    content += `<div>${strInstructions}</div><br>`;
+  }
 
   return `<div>${content}</div>`;
 }
 
-function isCurrentRecipeDataLoaded() {
-  return Boolean(getCurrentRecipeData());
-}
+// function isCurrentRecipeDataLoaded() {
+//   return Boolean(getCurrentRecipeData());
+// }
 
 async function performSearch(recipeName) {
   const url = getRecipe(recipeName);
@@ -146,7 +173,7 @@ function renderRecipe() {
     content += `<div>${strInstructions}</div><br>`;
     content += `${addLikeButton(currentRecipe)}`;
   }
-  return `<div>${content}</div>`;
+  return content ? `<div>${content}</div>` : '';
 }
 
 function addLikeButton(recipe) {
