@@ -15,6 +15,7 @@ window.likedRecipe = likedRecipe;
 window.renderApp = renderApp;
 window.showList = showList;
 window.performSearch = performSearch;
+window.addLikedRecipe = addLikedRecipe;
 
 renderApp();
 
@@ -28,7 +29,7 @@ function RecipeResults() {
   const { currentRecipe, isDataLoading, error } = window.dataStore;
   let content = '';
   if (currentRecipe === '') {
-    content = 'Search by recipe name';
+    content = 'Please, choose the recipe from the list or try your luck and get random one :)';
   } else {
     if (isDataLoading) {
       content = 'Loading ...';
@@ -85,6 +86,7 @@ async function GetRandomRecipe() {
     } else {
       const results = await response.json();
       window.dataStore.randomRecipe = results.meals[0];
+      window.dataStore.recipeList[results.meals[0].strMeal] = results.meals;
     }
   } catch (e) {
     window.dataStore.error = 'Some error ocurred...';
@@ -104,6 +106,7 @@ function RenderRandomRecipe() {
     content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
     content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
     content += `<div>${strInstructions}</div><br>`;
+    content += `${addLikeButton(strMeal)}`;
   }
 
   return `<div>${content}</div>`;
@@ -175,9 +178,23 @@ function renderRecipe() {
 }
 
 function addLikeButton(recipe) {
+  const { currentRecipe, randomRecipe } = window.dataStore;
   window.likedRecipe = recipe;
-  return `
-  <button id="like-recipe-btn" onclick="window.dataStore.likedArr.push(likedRecipe); window.renderApp();">Click to add this recipe<br>to your favorite</button>`;
+
+  if (currentRecipe === recipe) {
+    return `
+    <button id="like-recipe-btn" onclick="addLikedRecipe(likedRecipe); window.renderApp();">Click to add this recipe<br>to your favorite</button>`;
+  } else if (randomRecipe.strMeal === recipe) {
+    return `
+    <button id="like-random-btn" onclick="addLikedRecipe(likedRecipe); window.renderApp();">Click to add this recipe<br>to your favorite</button>`;
+  }
+}
+
+function addLikedRecipe(recipe) {
+  const { likedArr } = window.dataStore;
+  if (!likedArr.includes(recipe)) {
+    likedArr.push(recipe);
+  }
 }
 
 function showLikedRecipesButton() {
