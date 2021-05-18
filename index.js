@@ -1,7 +1,10 @@
-import { Recipe } from './recipesList';
+import { allowedRecipes, getRecipe } from './utils';
 
 window.dataStore = {
   currentRecipe: '',
+  isDataLoading: false,
+  error: null,
+  recipeList: {},
   likedRecipe: '',
 };
 
@@ -10,6 +13,8 @@ window.GetRandomRecipe = GetRandomRecipe;
 window.likedRecipe = likedRecipe;
 window.renderApp = renderApp;
 window.showList = showList;
+window.performSearch = performSearch;
+window.validateAndLoadData = validateAndLoadData;
 const RECIPES_NUM = 3;
 
 renderApp();
@@ -20,6 +25,33 @@ function renderApp() {
     `;
 }
 
+function recipeResults() {
+  const { currentRecipe, isDataLoading, error } = window.dataStore;
+
+  let content = '';
+  if (currentRecipe === '') {
+    content = 'Search by recipe name';
+  } else {
+    if (isDataLoading) {
+      content = 'Loading ...';
+    }
+
+    if (error !== null) {
+      content = error;
+    }
+
+    if (isCurrentRecipeDataLoaded()) {
+      content = `
+      ${renderRecipe()}
+      <br>
+      ${showLikedRecipesButton()}
+      `;
+    }
+  }
+
+  return `<div>${content}</div>`;
+}
+
 function App() {
   return `
   <div>
@@ -27,9 +59,7 @@ function App() {
     <br>
     ${SearchByDish()}
     <br>
-    ${renderRecipe()}
-    <br>
-    ${showLikedRecipesButton()}
+    ${recipeResults()}
   </div>
   `;
 }
@@ -45,7 +75,8 @@ function RenderBtn() {
 function GetRandomRecipe() {
   let content = '';
   const index = Math.floor(Math.random() * RECIPES_NUM);
-  const recipeData = Recipe.meals[index];
+  const recipeData = getRecipe(allowedRecipes[index]);
+  console.log(recipeData);
   const { strMeal, strCategory, strInstructions } = recipeData;
 
   content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
@@ -55,51 +86,84 @@ function GetRandomRecipe() {
   return `<div>${content}</div>`;
 }
 
-function SearchByDish() {
-  const recipeData = window.dataStore.currentRecipe;
+function isCurrentRecipeDataLoaded() {
+  return Boolean(getCurrentRecipeData());
+}
 
-  const recipesList = [];
+function validateAndLoadData() {
+  const { currentRecipe } = window.dataStore;
+
+  if (!allowedRecipes.includes(currentRecipe)) {
+    const error = `Please, choose one of the recipes`;
+    return Promise.resolve({ error });
+  }
+
+  const url = getRecipe(currentRecipe);
+  if (!isCurrentRecipeDataLoaded()) {
+    return fetch(url)
+      .then(response => response.json())
+      .then(data => ({ data }));
+  }
+  return Promise.resolve({});
+}
+
+function performSearch(recipeName) {
+  window.dataStore.currentRecipe = recipeName;
+  window.dataStore.error = null;
+  window.dataStore.isDataLoading = false;
+
+  window
+    .validateAndLoadData()
+    .then((error, data) => {
+      window.dataStore.isDataLoading = true;
+      if (error) {
+        window.dataStore.error = error;
+      } else if (data) {
+        window.dataStore.recipeList[recipeName] = data;
+      }
+    })
+    .catch(() => {
+      window.dataStore.error = 'Some error ocurred...';
+    })
+    .finally(window.renderApp);
+}
+
+function SearchByDish() {
   const optionList = [];
-  Recipe.meals.forEach(el => recipesList.push(el.strMeal));
-  recipesList.forEach(el => optionList.push(`<option value="${el}"></option>`));
+  allowedRecipes.forEach(el => optionList.push(`<option value="${el}"></option>`));
 
   return `
     <input 
       type="search" 
       id="search-recipe-input" 
       list="recipe-list" placeholder="Choose recipe" 
-      onchange="window.dataStore.currentRecipe = this.value; window.renderApp();" 
+      onchange="window.performSearch(this.value)" 
       autocomplete="off"
     >
     <datalist id="recipe-list">
-      ${!recipeData ? `${optionList}` : ''}
+    ${optionList}
     </datalist>
     <br><br>
   `;
 }
 
+function getCurrentRecipeData() {
+  const { currentRecipe, recipeList } = window.dataStore;
+  return recipeList[currentRecipe];
+}
+
 function renderRecipe() {
   const { currentRecipe } = window.dataStore;
+  const recipeData = getCurrentRecipeData();
   let content = '';
 
-  Recipe.meals.forEach(recipeName => {
-    if (currentRecipe === recipeName.strMeal) {
-      let index;
-      for (let i = 0; i < Recipe.meals.length; i++) {
-        const el = Recipe.meals[i];
-        if (el.strMeal === recipeName.strMeal) {
-          index = i;
-        }
-      }
+  if (recipeData) {
+    const { strInstructions } = recipeData;
 
-      const recipeData = Recipe.meals[index];
-      const { strInstructions } = recipeData;
-
-      content += `<div><h3>${recipeName.strMeal}</h3></div>`;
-      content += `<div>${strInstructions}</div><br>`;
-      content += `${addLikeButton(recipeName.strMeal)}`;
-    }
-  });
+    content += `<div><h3>${currentRecipe.strMeal}</h3></div>`;
+    content += `<div>${strInstructions}</div><br>`;
+    content += `${addLikeButton(currentRecipe.strMeal)}`;
+  }
   return `<div>${content}</div>`;
 }
 
