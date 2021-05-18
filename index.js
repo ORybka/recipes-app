@@ -6,16 +6,15 @@ window.dataStore = {
   isDataLoading: false,
   error: null,
   recipeList: {},
-  likedRecipe: '',
+  likedArr: [],
 };
 
-let likedRecipe;
+let likedRecipe = [];
 window.GetRandomRecipe = GetRandomRecipe;
 window.likedRecipe = likedRecipe;
 window.renderApp = renderApp;
 window.showList = showList;
 window.performSearch = performSearch;
-const RECIPES_NUM = 3;
 
 renderApp();
 
@@ -56,7 +55,7 @@ function App() {
   <div>
     ${RenderRandomBtn()}
     <br>
-    ${renderRandomRecipe()}
+    ${RenderRandomRecipe()}
     <br>
     ${SearchByDish()}
     <br>
@@ -70,7 +69,6 @@ function RenderRandomBtn() {
     <button id="random-recipe-btn" onclick="window.GetRandomRecipe(); window.renderApp();">Click to get a recipe</button>
     <br>
   `;
-  // <div>${renderRandomRecipe()}</div>
 }
 
 async function GetRandomRecipe() {
@@ -95,7 +93,7 @@ async function GetRandomRecipe() {
   }
 }
 
-function renderRandomRecipe() {
+function RenderRandomRecipe() {
   const { randomRecipe } = window.dataStore;
   let content = '';
 
@@ -179,7 +177,7 @@ function renderRecipe() {
 function addLikeButton(recipe) {
   window.likedRecipe = recipe;
   return `
-  <button id="like-recipe-btn" onclick="window.dataStore.likedRecipe = likedRecipe; window.renderApp();">Click to add this recipe<br>to your favorite</button>`;
+  <button id="like-recipe-btn" onclick="window.dataStore.likedArr.push(likedRecipe); window.renderApp();">Click to add this recipe<br>to your favorite</button>`;
 }
 
 function showLikedRecipesButton() {
@@ -190,9 +188,11 @@ function showLikedRecipesButton() {
 }
 
 function ShowLikedRecipes() {
+  let content = '';
+  window.dataStore.likedArr.forEach(el => (content += `<div>${el}</div>`));
   return `
     <div id="liked-title" class="_hidden_7ad08"><h3>List of your favorite recipes:</h3></div>
-    <div id="liked-list" class="_hidden_7ad08">${window.dataStore.likedRecipe}</div>`;
+    <div id="liked-list" class="_hidden_7ad08">${content}</div>`;
 }
 
 function showList() {
