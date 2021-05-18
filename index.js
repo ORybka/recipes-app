@@ -14,7 +14,6 @@ window.likedRecipe = likedRecipe;
 window.renderApp = renderApp;
 window.showList = showList;
 window.performSearch = performSearch;
-window.validateAndLoadData = validateAndLoadData;
 const RECIPES_NUM = 3;
 
 renderApp();
@@ -76,12 +75,31 @@ function GetRandomRecipe() {
   let content = '';
   const index = Math.floor(Math.random() * RECIPES_NUM);
   const recipeData = getRecipe(allowedRecipes[index]);
-  console.log(recipeData);
-  const { strMeal, strCategory, strInstructions } = recipeData;
 
-  content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
-  content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
-  content += `<div>${strInstructions}</div><br>`;
+  // if (!isCurrentRecipeDataLoaded()) {
+  //   return fetch(recipeData)
+  //     .then(response => response.json())
+  //     .then(() => console.log(response))
+  //     .then(data => ({ data }))
+  //     .then((error, data) => {
+  //       window.dataStore.isDataLoading = true;
+  //       if (error) {
+  //         window.dataStore.error = error;
+  //       } else if (data) {
+  //         window.dataStore.recipeList[recipeName] = data;
+  //       }
+  //     })
+  //     .catch(() => {
+  //       window.dataStore.error = 'Some error ocurred...';
+  //     })
+  //     .finally(window.renderApp);
+  // }
+
+  // const { strMeal, strCategory, strInstructions } = recipeData;
+
+  // content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
+  // content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
+  // content += `<div>${strInstructions}</div><br>`;
 
   return `<div>${content}</div>`;
 }
@@ -90,42 +108,31 @@ function isCurrentRecipeDataLoaded() {
   return Boolean(getCurrentRecipeData());
 }
 
-function validateAndLoadData() {
-  const { currentRecipe } = window.dataStore;
-
-  if (!allowedRecipes.includes(currentRecipe)) {
-    const error = `Please, choose one of the recipes`;
-    return Promise.resolve({ error });
-  }
-
-  const url = getRecipe(currentRecipe);
-  if (!isCurrentRecipeDataLoaded()) {
-    return fetch(url)
-      .then(response => response.json())
-      .then(data => ({ data }));
-  }
-  return Promise.resolve({});
-}
-
-function performSearch(recipeName) {
+async function performSearch(recipeName) {
+  const url = getRecipe(recipeName);
   window.dataStore.currentRecipe = recipeName;
   window.dataStore.error = null;
-  window.dataStore.isDataLoading = false;
+  window.dataStore.isDataLoading = true;
 
-  window
-    .validateAndLoadData()
-    .then((error, data) => {
-      window.dataStore.isDataLoading = true;
-      if (error) {
-        window.dataStore.error = error;
-      } else if (data) {
-        window.dataStore.recipeList[recipeName] = data;
+  if (!isCurrentRecipeDataLoaded()) {
+    try {
+      window.dataStore.isDataLoading = false;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      } else {
+        const results = await response.json();
+        console.log(results);
+        console.log(window.dataStore);
+        window.dataStore.recipeList[recipeName] = results;
       }
-    })
-    .catch(() => {
+    } catch (e) {
       window.dataStore.error = 'Some error ocurred...';
-    })
-    .finally(window.renderApp);
+      console.error(e);
+    } finally {
+      window.renderApp;
+    }
+  }
 }
 
 function SearchByDish() {
