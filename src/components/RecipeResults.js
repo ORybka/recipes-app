@@ -1,9 +1,12 @@
+/** @jsx createElement */
+/** @jsxFrag createFragment */
+import { createElement, createFragment } from '../framework/element';
 import renderRecipe from './Recipe';
 import { showLikedRecipesButton } from './ShowLikedRecipes';
 
 export default function RecipeResults() {
   const { currentRecipe, isDataLoading, error } = window.dataStore;
-  let content = '';
+  let content = null;
   if (currentRecipe === '') {
     content = 'Please, choose the recipe from the list or try your luck and get random one :)';
   } else {
@@ -15,14 +18,15 @@ export default function RecipeResults() {
       content = error;
     }
 
-    // if (isCurrentRecipeDataLoaded()) {
-    content = `
-      ${renderRecipe()}
-      <br>
-      ${showLikedRecipesButton()}
-      `;
-    // }
+    content = (
+      <>
+        <h3>{currentRecipe}</h3>
+        <renderRecipe recipe={currentRecipe} />
+        <br />
+        <showLikedRecipesButton />
+      </>
+    );
   }
 
-  return `<div>${content}</div>`;
+  return <p>{content}</p>;
 }

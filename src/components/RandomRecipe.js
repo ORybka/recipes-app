@@ -1,18 +1,29 @@
-import addLikeButton from './LikeButton';
+/** @jsx createElement */
+/** @jsxFrag createFragment */
+import { createElement, createFragment } from '../framework/element';
 
 export default function RenderRandomRecipe() {
   const { randomRecipe } = window.dataStore;
-  let content = '';
 
   const { strMeal, strCategory, strInstructions } = randomRecipe;
   if (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object) {
-    content = '';
+    return null;
   } else {
-    content += `<div>Your meal today is ${strMeal} from ${strCategory} category.</div><br>`;
-    content += `<div>Please, follow the instructions to cook ${strMeal}:</div><br>`;
-    content += `<div>${strInstructions}</div><br>`;
-    content += `${addLikeButton(strMeal)}`;
+    return (
+      <>
+        <div>
+          Your meal today is {strMeal} from {strCategory} category.
+        </div>
+        <br />
+        <div>Please, follow the instructions to cook {strMeal}:</div>
+        <br />
+        <div>{strInstructions}</div>
+        <br />
+        <button id="like-random-btn" onclick={e => addLikedRecipe(strMeal)}>
+          Click to like
+        </button>
+        <br />
+      </>
+    );
   }
-
-  return `<div>${content}</div>`;
 }
