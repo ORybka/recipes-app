@@ -2,7 +2,6 @@
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
 import renderRecipe from './Recipe';
-import { showLikedRecipesButton } from './ShowLikedRecipes';
 
 export default function RecipeResults() {
   const { currentRecipe, isDataLoading, error } = window.dataStore;
@@ -20,10 +19,7 @@ export default function RecipeResults() {
 
     content = (
       <>
-        <h3>{currentRecipe}</h3>
-        <renderRecipe recipe={currentRecipe} />
-        <br />
-        <showLikedRecipesButton />
+        <>{renderRecipe(currentRecipe)} </>
       </>
     );
   }

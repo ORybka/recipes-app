@@ -8,9 +8,9 @@ function getCurrentRecipeData() {
 }
 
 export default function renderRecipe(recipe) {
-  const { currentRecipe } = window.dataStore;
-  const { strInstructions } = recipeData[0];
   const recipeData = getCurrentRecipeData();
+  const { currentRecipe } = window.dataStore;
+  const { strInstructions, strMeal } = recipeData[0];
   if (!recipeData) return null;
 
   return (

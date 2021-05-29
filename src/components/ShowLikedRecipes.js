@@ -8,21 +8,20 @@ function showLikedRecipesButton() {
       <button id="show-btn" onclick={showList}>
         Click to see your favorite recipes
       </button>
-      <ShowLikedRecipes />
+      <>{ShowLikedRecipes()}</>
     </>
   );
 }
 
 function ShowLikedRecipes() {
-  let content = null;
-  window.dataStore.likedArr.forEach(el => (content += el));
+  const { likedArr } = window.dataStore;
   return (
     <>
-      <div id="liked-title" class="_hidden_7ad08">
+      <div id="liked-title" style="display: none">
         <h3>List of your favorite recipes:</h3>
       </div>
-      <div id="liked-list" class="_hidden_7ad08">
-        {content}
+      <div id="liked-list" style="display: none">
+        {likedArr.map(el => el + ', ')}
       </div>
     </>
   );
