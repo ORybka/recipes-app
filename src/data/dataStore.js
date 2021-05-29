@@ -1,4 +1,4 @@
-export default window.dataStore = {
+const dataStore = {
   currentRecipe: '',
   randomRecipe: {},
   isDataLoading: false,
@@ -7,4 +7,4 @@ export default window.dataStore = {
   likedArr: [],
 };
 
-// export default dataStore;
+export default dataStore;

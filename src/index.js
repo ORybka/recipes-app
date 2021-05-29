@@ -7,6 +7,7 @@ import { showList } from './components/ShowLikedRecipes';
 import addLikedRecipe from './components/LikeRecipe';
 
 let likedRecipe = [];
+window.dataStore = dataStore;
 window.GetRandomRecipe = GetRandomRecipe;
 window.likedRecipe = likedRecipe;
 window.renderApp = renderApp;
@@ -14,4 +15,4 @@ window.showList = showList;
 window.performSearch = performSearch;
 window.addLikedRecipe = addLikedRecipe;
 
-renderApp(App, 'app-root');
+renderApp(App, document.getElementById('app-root'));
