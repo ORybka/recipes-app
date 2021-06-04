@@ -1,4 +1,5 @@
 import { getRecipe } from './theMealDBApi';
+import renderApp from '../framework/render';
 
 export default async function performSearch(recipeName) {
   const url = getRecipe(recipeName);

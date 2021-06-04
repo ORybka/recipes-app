@@ -1,4 +1,5 @@
 import { getRandomURL } from './theMealDBApi';
+import renderApp from '../framework/render';
 
 export default async function GetRandomRecipe() {
   const url = getRandomURL();

@@ -1,6 +1,7 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
+import addLikedRecipe from './LikeRecipe';
 
 export default function RenderRandomRecipe() {
   const { randomRecipe } = window.dataStore;
