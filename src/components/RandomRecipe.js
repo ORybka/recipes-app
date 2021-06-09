@@ -1,13 +1,11 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
-import addLikedRecipe from './LikeRecipe';
 
-export default function RenderRandomRecipe() {
-  const { randomRecipe } = window.dataStore;
+export default function RenderRandomRecipe({ data }) {
+  const { strMeal, strCategory, strInstructions } = data;
 
-  const { strMeal, strCategory, strInstructions } = randomRecipe;
-  if (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object) {
+  if (Object.keys(data).length === 0 && data.constructor === Object) {
     return null;
   } else {
     return (
@@ -19,10 +17,6 @@ export default function RenderRandomRecipe() {
         <div>Please, follow the instructions to cook {strMeal}:</div>
         <br />
         <div>{strInstructions}</div>
-        <br />
-        <button id="like-random-btn" onclick={e => addLikedRecipe(strMeal)}>
-          Click to like
-        </button>
         <br />
       </>
     );

@@ -1,12 +1,13 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
-import GetRandomRecipe from '../data/randomRecipesData';
+import RenderRandomRecipe from './RandomRecipe';
+// import GetRandomRecipe from '../data/randomRecipesData';
 
-export default function RenderRandomBtn() {
+export default function RenderRandomBtn({ data }) {
   return (
     <>
-      <button id="random-recipe-btn" onclick={GetRandomRecipe}>
+      <button id="random-recipe-btn" onclick={RenderRandomRecipe(data)}>
         Click to get a recipe
       </button>
     </>
