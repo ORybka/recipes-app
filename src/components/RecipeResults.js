@@ -3,26 +3,22 @@
 import { createElement, createFragment } from '../framework/element';
 import renderRecipe from './Recipe';
 
-export default function RecipeResults() {
-  const { currentRecipe, isDataLoading, error } = window.dataStore;
-  let content = null;
+export default function RecipeResults({ currentRecipe, recipeList, isDataLoading, error }) {
   if (currentRecipe === '') {
-    content = 'Please, choose the recipe from the list or try your luck and get random one :)';
+    return <div>Please, choose the recipe from the list or try your luck and get random one</div>;
   } else {
     if (isDataLoading) {
-      content = 'Loading ...';
+      return <div>Loading ...</div>;
     }
 
     if (error !== null) {
-      content = error;
+      return <div>{error}</div>;
     }
 
-    content = (
+    return (
       <>
-        <>{renderRecipe(currentRecipe)} </>
+        <>{renderRecipe(recipeList)} </>
       </>
     );
   }
-
-  return <p>{content}</p>;
 }

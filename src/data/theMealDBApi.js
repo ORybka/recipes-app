@@ -7,9 +7,4 @@ function getRandomURL() {
   return 'https://www.themealdb.com/api/json/v1/1/random.php';
 }
 
-async function loadRandomMealDBApiData() {
-  const url = getRandomURL();
-  return fetch(url).then(response => response.json());
-}
-
-export { recipesData, allowedRecipes, getRecipe, getRandomURL, loadRandomMealDBApiData };
+export { recipesData, allowedRecipes, getRecipe, getRandomURL };

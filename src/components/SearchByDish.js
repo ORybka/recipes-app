@@ -2,25 +2,31 @@
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
 import { allowedRecipes } from '../data/theMealDBApi';
-import performSearch from '../data/recipesData';
 
-export default function SearchByDish() {
-  const optionList = [];
-  allowedRecipes.forEach(el => optionList.push(<option value={el}></option>));
+export default function SearchByDish({ onChange }) {
+  // const optionList = [];
+  // allowedRecipes.forEach(el => optionList.push(<option value={el}></option>));
 
   return (
     <>
-      <input
-        type="search"
-        id="search-recipe-input"
-        list="recipe-list"
-        placeholder="Choose recipe"
-        onchange={e => performSearch(e.target.value)}
-        autocomplete="off"
-      />
-      <datalist id="recipe-list">{optionList}</datalist>
-      <br />
+      <input type="text" placeholder="Choose recipe" onChange={e => onChange(e.target.value)} />
       <br />
     </>
   );
 }
+
+// return (
+//   <>
+//     <input
+//       type="search"
+//       id="search-recipe-input"
+//       list="recipe-list"
+//       placeholder="Choose recipe"
+//       onChange={e => onChange(e.target.value)}
+//       autocomplete="off"
+//     />
+//     <datalist id="recipe-list">{optionList}</datalist>
+//     <br />
+//     <br />
+//   </>
+// );

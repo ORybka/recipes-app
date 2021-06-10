@@ -3,24 +3,14 @@
 import { createElement } from '../framework/element';
 import addLikedRecipe from './LikeRecipe';
 
-function getCurrentRecipeData() {
-  const { currentRecipe, recipeList } = window.dataStore;
-  return recipeList[currentRecipe];
-}
-
-export default function renderRecipe(recipe) {
-  const recipeData = getCurrentRecipeData();
-  const { currentRecipe } = window.dataStore;
-  const { strInstructions, strMeal } = recipeData[0];
-  if (!recipeData) return null;
-
+export default function renderRecipe(recipeData) {
   return (
     <div>
-      <h3>{currentRecipe}</h3>
-      <div>{strInstructions}</div>
-      <div>{recipe}</div>
+      <h3>{recipeData.strMeal}</h3>
+      <div>{recipeData.strInstructions}</div>
+      <div>{recipeData.recipe}</div>
       <br />
-      <button id="like-recipe-btn" onclick={e => addLikedRecipe(strMeal)}>
+      <button id="like-recipe-btn" onclick={e => addLikedRecipe(recipeData.strMeal)}>
         Click to like
       </button>
       <br />
