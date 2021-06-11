@@ -25,9 +25,7 @@ export default function RecipeResults({
       <>
         <>{renderRecipe(recipeList)} </>
         <br />
-        <button id="like-recipe-btn" onclick={e => addToLikedList(recipeList.strMeal)}>
-          Click to like
-        </button>
+        <button onclick={e => addToLikedList(recipeList.strMeal)}>Click to like</button>
         <br />
       </>
     );

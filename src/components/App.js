@@ -5,6 +5,7 @@ import { useState, useEffect } from '../framework/hooks';
 import GetRandomRecipe from '../data/randomRecipesData';
 import performSearch from '../data/recipesData';
 import RenderRandomBtn from './RandomButton';
+import RandomRecipeResults from './RandomRecipeResults';
 import SearchByDish from './SearchByDish';
 import RecipeResults from './RecipeResults';
 import { showLikedRecipesButton, ShowLikedRecipes } from './ShowLikedRecipes';
@@ -15,10 +16,12 @@ export default function App() {
   const [randomRecipe, setRandomRecipe] = useState({});
   const [currentRecipe, setCurrentRecipe] = useState('');
   const [recipeList, setRecipeList] = useState({});
-  const [likedList, setlikedList] = useState([]);
+  const [likedList, setLikedList] = useState([]);
 
   const addToLikedList = recipe => {
-    setlikedList([...likedList, recipe]);
+    if (!likedList.includes(recipe)) {
+      setLikedList([...likedList, recipe]);
+    }
   };
 
   useEffect(() => {
@@ -51,9 +54,11 @@ export default function App() {
 
   return (
     <>
-      <RenderRandomBtn
+      <RenderRandomBtn randomRecipe={randomRecipe} setReload={setDataLoading} />
+      <RandomRecipeResults
         randomRecipe={randomRecipe}
-        setReload={setDataLoading}
+        isDataLoading={isDataLoading}
+        error={error}
         addToLikedList={addToLikedList}
       />
       <br />

@@ -2,14 +2,9 @@
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
 
-export default function RenderRandomRecipe({ randomRecipe }) {
-  if (
-    randomRecipe === undefined ||
-    (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object)
-  ) {
-    return null;
-  } else {
-    const { strMeal, strCategory, strInstructions } = randomRecipe;
+export default function renderRandomRecipe(recipe) {
+  if (recipe) {
+    const { strMeal, strCategory, strInstructions } = recipe;
     return (
       <>
         <div>

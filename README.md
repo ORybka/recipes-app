@@ -9,7 +9,7 @@ You will be able to find different recipes by ingredients, dish names, countries
 
 ## :candy: Main features:
 
-1. Search recipes by ingredients, dish names or countries
+1. Search recipes by ingredients, dish names
 2. Get random recipe
 3. Mark recipes that you like
 
