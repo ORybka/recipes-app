@@ -1,30 +1,29 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
-
 function showLikedRecipesButton() {
   return (
     <>
       <button id="show-btn" onclick={showList}>
         Click to see your favorite recipes
       </button>
-      <>{ShowLikedRecipes()}</>
     </>
   );
 }
 
-function ShowLikedRecipes() {
-  const { likedArr } = window.dataStore;
-  return (
-    <>
-      <div id="liked-title" style="display: none">
-        <h3>List of your favorite recipes:</h3>
-      </div>
-      <div id="liked-list" style="display: none">
-        {likedArr.map(el => el + ', ')}
-      </div>
-    </>
-  );
+function ShowLikedRecipes({ likedList }) {
+  if (likedList) {
+    return (
+      <>
+        <div id="liked-title" style="display: none">
+          <h3>List of your favorite recipes:</h3>
+        </div>
+        <div id="liked-list" style="display: none">
+          {likedList.map(el => el + ', ')}
+        </div>
+      </>
+    );
+  }
 }
 
 function showList() {
