@@ -1,7 +1,7 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
-import { useState, useEffect } from '../framework/hooks';
+import { createElement, createFragment } from '../framework';
+import { useState, useEffect } from '../framework';
 import GetRandomRecipe from '../data/randomRecipesData';
 import performSearch from '../data/recipesData';
 import RenderRandomBtn from './RandomButton';
@@ -41,11 +41,11 @@ export default function App() {
   useEffect(() => {
     if (currentRecipe) {
       performSearch(currentRecipe)
-        .then(({ response, results }) => {
-          const { message, code } = response;
+        .then(data => {
+          const { message, code } = data;
           if (code !== '200' && message) throw Error(message);
           setError(null);
-          setRecipeList(results.meals[0]);
+          setRecipeList(data.meals[0]);
         })
         .catch(setError)
         .finally(() => setDataLoading(false));

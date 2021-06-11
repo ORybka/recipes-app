@@ -1,6 +1,6 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment } from '../framework';
 import renderRandomRecipe from './RandomRecipe';
 
 export default function RandomRecipeResults({
@@ -13,14 +13,14 @@ export default function RandomRecipeResults({
     randomRecipe === undefined ||
     (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object)
   ) {
-    return <div>no randomRecipe</div>;
+    return null;
   } else {
     if (isDataLoading) {
       return <div>Loading ...</div>;
     }
 
     if (error !== null) {
-      return <div>{error}</div>;
+      return <div>Some error occured... 😩</div>;
     }
 
     return (

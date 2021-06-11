@@ -1,6 +1,6 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment } from '../framework';
 
 export default function RenderRandomBtn({ setReload }) {
   return (

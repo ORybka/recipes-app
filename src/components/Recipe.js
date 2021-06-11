@@ -1,6 +1,6 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement } from '../framework/element';
+import { createElement } from '../framework';
 
 export default function renderRecipe(recipeData) {
   const { strMeal, strInstructions, recipe } = recipeData;

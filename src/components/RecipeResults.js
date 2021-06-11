@@ -1,6 +1,6 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment } from '../framework';
 import renderRecipe from './Recipe';
 
 export default function RecipeResults({
@@ -18,7 +18,7 @@ export default function RecipeResults({
     }
 
     if (error !== null) {
-      return <div>{error}</div>;
+      return <div>No such dish 😕</div>;
     }
 
     return (
