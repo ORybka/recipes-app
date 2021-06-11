@@ -1,21 +1,23 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
-import { useState, useEffect } from '../framework';
-import GetRandomRecipe from '../data/randomRecipesData';
-import performSearch from '../data/recipesData';
+import { createElement, createFragment, useState } from '../framework';
 import RenderRandomBtn from './RandomButton';
 import RandomRecipeResults from './RandomRecipeResults';
 import SearchByDish from './SearchByDish';
 import RecipeResults from './RecipeResults';
 import { showLikedRecipesButton, ShowLikedRecipes } from './ShowLikedRecipes';
+import { useRecipes } from '../data/customHooks';
 
 export default function App() {
-  const [error, setError] = useState(null);
-  const [isDataLoading, setDataLoading] = useState(false);
-  const [randomRecipe, setRandomRecipe] = useState({});
-  const [currentRecipe, setCurrentRecipe] = useState('');
-  const [recipeList, setRecipeList] = useState({});
+  const {
+    isDataLoading,
+    setDataLoading,
+    error,
+    randomRecipe,
+    currentRecipe,
+    setCurrentRecipe,
+    recipeList,
+  } = useRecipes();
   const [likedList, setLikedList] = useState([]);
 
   const addToLikedList = recipe => {
@@ -23,34 +25,6 @@ export default function App() {
       setLikedList([...likedList, recipe]);
     }
   };
-
-  useEffect(() => {
-    if (isDataLoading) {
-      GetRandomRecipe()
-        .then(({ response, results }) => {
-          const { message, code } = response;
-          if (code !== '200' && message) throw Error(message);
-          setError(null);
-          setRandomRecipe(results.meals[0]);
-        })
-        .catch(setError)
-        .finally(() => setDataLoading(false));
-    }
-  }, [isDataLoading]);
-
-  useEffect(() => {
-    if (currentRecipe) {
-      performSearch(currentRecipe)
-        .then(data => {
-          const { message, code } = data;
-          if (code !== '200' && message) throw Error(message);
-          setError(null);
-          setRecipeList(data.meals[0]);
-        })
-        .catch(setError)
-        .finally(() => setDataLoading(false));
-    }
-  }, [currentRecipe]);
 
   return (
     <>
