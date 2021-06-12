@@ -1,6 +1,4 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+import React from 'react';
 import renderRandomRecipe from './RandomRecipe';
 
 export default function RandomRecipeResults({
@@ -27,7 +25,7 @@ export default function RandomRecipeResults({
       <>
         <>{renderRandomRecipe(randomRecipe)} </>
         <br />
-        <button onclick={e => addToLikedList(randomRecipe.strMeal)}>Click to like</button>
+        <button onClick={e => addToLikedList(randomRecipe.strMeal)}>Click to like</button>
         <br />
       </>
     );

@@ -1,11 +1,9 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+import React from 'react';
 
 export default function RenderRandomBtn({ setReload }) {
   return (
     <>
-      <button id="random-recipe-btn" onclick={() => setReload(true)}>
+      <button id="random-recipe-btn" onClick={() => setReload(true)}>
         Click to get a recipe
       </button>
       <br />

@@ -1,10 +1,8 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+import React from 'react';
 function showLikedRecipesButton() {
   return (
     <>
-      <button id="show-btn" onclick={showList}>
+      <button id="show-btn" onClick={showList}>
         Click to see your favorite recipes
       </button>
     </>
@@ -15,10 +13,10 @@ function ShowLikedRecipes({ likedList }) {
   if (likedList) {
     return (
       <>
-        <div id="liked-title" style="display: none">
+        <div id="liked-title" style={{ display: 'none' }}>
           <h3>List of your favorite recipes:</h3>
         </div>
-        <div id="liked-list" style="display: none">
+        <div id="liked-list" style={{ display: 'none' }}>
           {likedList.map(el => el + ', ')}
         </div>
       </>

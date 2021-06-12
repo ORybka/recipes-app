@@ -1,6 +1,4 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment, useState } from '../framework';
+import React, { useState } from 'react';
 import RenderRandomBtn from './RandomButton';
 import RandomRecipeResults from './RandomRecipeResults';
 import SearchByDish from './SearchByDish';
@@ -37,7 +35,7 @@ export default function App() {
       />
       <br />
       <br />
-      <SearchByDish onChange={setCurrentRecipe} />
+      <SearchByDish onBlur={setCurrentRecipe} />
       <br />
       <RecipeResults
         currentRecipe={currentRecipe}

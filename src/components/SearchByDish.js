@@ -1,14 +1,12 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+import React from 'react';
 
-export default function SearchByDish({ onChange }) {
+export default function SearchByDish({ onBlur }) {
   return (
     <>
       <input
         type="text"
         placeholder="Choose recipe"
-        onChange={e => onChange(e.target.value.toLowerCase())}
+        onBlur={e => onBlur(e.target.value.toLowerCase())}
       />
       <br />
     </>

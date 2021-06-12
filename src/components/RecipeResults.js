@@ -1,6 +1,4 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+import React from 'react';
 import renderRecipe from './Recipe';
 
 export default function RecipeResults({
@@ -25,7 +23,7 @@ export default function RecipeResults({
       <>
         <>{renderRecipe(recipeList)} </>
         <br />
-        <button onclick={e => addToLikedList(recipeList.strMeal)}>Click to like</button>
+        <button onClick={e => addToLikedList(recipeList.strMeal)}>Click to like</button>
         <br />
       </>
     );
