@@ -1,12 +1,13 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment, useState } from '../framework';
+import { RecipeContext } from '../context';
 import RenderRandomBtn from './RandomButton';
 import RandomRecipeResults from './RandomRecipeResults';
 import SearchByDish from './SearchByDish';
 import RecipeResults from './RecipeResults';
 import { showLikedRecipesButton, ShowLikedRecipes } from './ShowLikedRecipes';
-import { useRecipes } from '../data/customHooks';
+import { useRecipes } from '../customHooks';
 
 export default function App() {
   const {
@@ -39,13 +40,18 @@ export default function App() {
       <br />
       <SearchByDish onChange={setCurrentRecipe} />
       <br />
-      <RecipeResults
-        currentRecipe={currentRecipe}
-        recipeList={recipeList}
-        isDataLoading={isDataLoading}
-        error={error}
-        addToLikedList={addToLikedList}
-      />
+      <RecipeContext.Provider value={recipeList}>
+        {!currentRecipe ? (
+          <div>Please, choose the recipe from the list or try your luck and get random one</div>
+        ) : (
+          <RecipeResults
+            isDataLoading={isDataLoading}
+            error={error}
+            addToLikedList={addToLikedList}
+          />
+        )}
+      </RecipeContext.Provider>
+
       <br />
       <>{showLikedRecipesButton()}</>
       <ShowLikedRecipes likedList={likedList} />

@@ -7,6 +7,7 @@ export default function renderRandomRecipe(recipe) {
     const { strMeal, strCategory, strInstructions } = recipe;
     return (
       <>
+        <br />
         <div>
           Your meal today is <strong>{strMeal}</strong> from {strCategory} category.
         </div>

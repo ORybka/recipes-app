@@ -1,6 +1,6 @@
-import { useState, useEffect } from '../framework';
-import GetRandomRecipe from '../data/randomRecipesData';
-import performSearch from '../data/recipesData';
+import { useState, useEffect } from './framework';
+import GetRandomRecipe from './data/randomRecipesData';
+import performSearch from './data/recipesData';
 
 export const useRecipes = () => {
   const [error, setError] = useState(null);

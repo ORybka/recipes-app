@@ -7,7 +7,7 @@ export default function SearchByDish({ onChange }) {
     <>
       <input
         type="text"
-        placeholder="Choose recipe"
+        placeholder="Type your recipe"
         onChange={e => onChange(e.target.value.toLowerCase())}
       />
       <br />
