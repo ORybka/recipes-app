@@ -9,7 +9,7 @@ export default function RecipeResults({
   addToLikedList,
 }) {
   if (currentRecipe === '') {
-    return <div>Please, choose the recipe from the list or try your luck and get random one</div>;
+    return <div>Please, type a recipe name or try your luck and get random one</div>;
   } else {
     if (isDataLoading) {
       return <div>Loading ...</div>;
