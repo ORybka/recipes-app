@@ -12,22 +12,21 @@ export default function RandomRecipeResults({
     (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object)
   ) {
     return null;
-  } else {
-    if (isDataLoading) {
-      return <div>Loading ...</div>;
-    }
-
-    if (error !== null) {
-      return <div>Some error occured... 😩</div>;
-    }
-
-    return (
-      <>
-        <>{renderRandomRecipe(randomRecipe)} </>
-        <br />
-        <button onClick={e => addToLikedList(randomRecipe.strMeal)}>Click to like</button>
-        <br />
-      </>
-    );
   }
+  if (isDataLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (error !== null) {
+    return <div>Some error occured... 😩</div>;
+  }
+
+  return (
+    <>
+      <>{renderRandomRecipe(randomRecipe)} </>
+      <br />
+      <button onClick={e => addToLikedList(randomRecipe.strMeal)}>Click to like</button>
+      <br />
+    </>
+  );
 }
