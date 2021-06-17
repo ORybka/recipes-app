@@ -1,0 +1,1 @@
+{"version":3,"sources":["LikedRecipesButton.css"],"names":[],"mappings":"AAAA,aACE,YACF,CAEA,aACE,aACF","file":"src.211e2431.css","sourceRoot":"..\\src","sourcesContent":[".hide {\n  display: none;\n}\n\n.show {\n  display: block;\n}\n"]}
