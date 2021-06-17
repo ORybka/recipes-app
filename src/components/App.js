@@ -3,7 +3,7 @@ import RenderRandomBtn from './RandomButton';
 import RandomRecipeResults from './RandomRecipeResults';
 import SearchByDish from './SearchByDish';
 import RecipeResults from './RecipeResults';
-import { showLikedRecipesButton, ShowLikedRecipes } from './ShowLikedRecipes';
+import LikedRecipesButton from './LikedRecipesButton/LikedRecipesButton';
 import { useRecipes } from '../data/customHooks';
 
 export default function App() {
@@ -45,8 +45,7 @@ export default function App() {
         addToLikedList={addToLikedList}
       />
       <br />
-      <>{showLikedRecipesButton()}</>
-      <ShowLikedRecipes likedList={likedList} />
+      <LikedRecipesButton likedList={likedList} />
     </>
   );
 }
