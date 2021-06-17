@@ -1,5 +1,5 @@
 import React from 'react';
-import renderRandomRecipe from './RandomRecipe';
+import RandomRecipe from './RandomRecipe';
 
 export default function RandomRecipeResults({
   randomRecipe,
@@ -7,10 +7,7 @@ export default function RandomRecipeResults({
   error,
   addToLikedList,
 }) {
-  if (
-    randomRecipe === undefined ||
-    (Object.keys(randomRecipe).length === 0 && randomRecipe.constructor === Object)
-  ) {
+  if (randomRecipe === undefined || Object.keys(randomRecipe).length === 0) {
     return null;
   }
   if (isDataLoading) {
@@ -23,7 +20,7 @@ export default function RandomRecipeResults({
 
   return (
     <>
-      <>{renderRandomRecipe(randomRecipe)} </>
+      <>{RandomRecipe(randomRecipe)} </>
       <br />
       <button onClick={e => addToLikedList(randomRecipe.strMeal)}>Click to like</button>
       <br />

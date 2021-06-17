@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function renderRandomRecipe(recipe) {
+export default function RandomRecipe(recipe) {
   if (recipe) {
     const { strMeal, strCategory, strInstructions } = recipe;
     return (
