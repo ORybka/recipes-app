@@ -1,5 +1,5 @@
 import React from 'react';
-import renderRecipe from './Recipe';
+import Recipe from './Recipe';
 
 export default function RecipeResults({
   currentRecipe,
@@ -21,7 +21,7 @@ export default function RecipeResults({
 
   return (
     <>
-      <>{renderRecipe(recipeList)} </>
+      <>{Recipe(recipeList)} </>
       <br />
       <button onClick={e => addToLikedList(recipeList.strMeal)}>Click to like</button>
       <br />

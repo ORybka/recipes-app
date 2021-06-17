@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function renderRecipe(recipeData) {
+export default function Recipe(recipeData) {
   const { strMeal, strInstructions, recipe } = recipeData;
   return (
     <div>

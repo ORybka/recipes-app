@@ -1,15 +1,15 @@
 # Recipes App :spaghetti:
 
-This App will be created as a part of FE JS framework development section from [Kottans frontend course](https://github.com/kottans/frontend/blob/master/README.md). _The main goal_ is to create a JavaScript application using public API and to improve it consistently while writing own framework. [TheMealDB](https://www.themealdb.com/api.php) API will be .
+This React App was created as a part of FE JS framework development section from [Kottans frontend course](https://github.com/kottans/frontend/blob/master/README.md) using [TheMealDB](https://www.themealdb.com/api.php) API. _The main goal_ was to create an application using public API and pure Javascript and to improve it consistently while writing own framework ending up with a React App.
 
-This application will be created to let you search for the best recipes all over the world.
-You will be able to find different recipes by ingredients, dish names, countries etc.
+This application will let you search for the best recipes all over the world.
+You will be able to find different recipes by dish names (and by ingredients, countries etc. in the next edition).
 
 [Demo website](https://orybka.github.io/recipes-app/)
 
 ## :candy: Main features:
 
-1. Search recipes by ingredients, dish names
+1. Search recipes by dish names
 2. Get random recipe
 3. Mark recipes that you like
 
