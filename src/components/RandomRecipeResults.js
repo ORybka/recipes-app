@@ -1,5 +1,5 @@
 import React from 'react';
-import RandomRecipe from './RandomRecipe';
+import Recipe from './Recipe';
 
 export default function RandomRecipeResults({
   randomRecipe,
@@ -20,7 +20,7 @@ export default function RandomRecipeResults({
 
   return (
     <>
-      <>{RandomRecipe(randomRecipe)} </>
+      <>{Recipe(randomRecipe)} </>
       <br />
       <button onClick={e => addToLikedList(randomRecipe.strMeal)}>Click to like</button>
       <br />
